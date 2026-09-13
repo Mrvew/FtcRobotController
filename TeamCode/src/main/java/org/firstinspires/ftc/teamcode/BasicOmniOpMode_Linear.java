@@ -5,7 +5,12 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.PwmControl;
+import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.ServoImpl;
+import com.qualcomm.robotcore.hardware.ServoImplEx;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 
@@ -13,41 +18,62 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 @TeleOp(name="Basic: Omni Linear OpMode", group="Linear OpMode")
 public class BasicOmniOpMode_Linear extends LinearOpMode {
 
-    // Declare OpMode members for each of the 4 motors.
     private ElapsedTime runtime = new ElapsedTime();
     private DcMotor frontLeftDrive = null;
     private DcMotor backLeftDrive = null;
     private DcMotor frontRightDrive = null;
     private DcMotor backRightDrive = null;
 
+    private DcMotor intake = null;
+
+    private ServoImplEx intakeServoLeft = null;
+
+    private ServoImplEx intakeServoRight = null;
+
+
     @Override
     public void runOpMode() {
 
    // Front left wheel: port 1
-   // Back lest wheel: port 0
+   // Back left wheel: port 0
    // Back right wheel: port 2
    // Front right wheel: port 3
+    // intake left servo  port:4
+    // intake right servo port:5
         frontLeftDrive = hardwareMap.get(DcMotor.class, "front_left_drive");
         backLeftDrive = hardwareMap.get(DcMotor.class, "back_left_drive");
         frontRightDrive = hardwareMap.get(DcMotor.class, "front_right_drive");
         backRightDrive = hardwareMap.get(DcMotor.class, "back_right_drive");
+        intake = hardwareMap.get(DcMotor.class, "intake_motor");
+        intakeServoLeft = hardwareMap.get(ServoImplEx.class, "intakeLeft");
+        intakeServoRight = hardwareMap.get(ServoImplEx.class, "intakeRight");
 
 
         frontLeftDrive.setDirection(DcMotor.Direction.REVERSE);
         backLeftDrive.setDirection(DcMotor.Direction.REVERSE);
         frontRightDrive.setDirection(DcMotor.Direction.FORWARD);
         backRightDrive.setDirection(DcMotor.Direction.FORWARD);
+        //intakeServoLeft.setDirection(ServoImplEx.Direction.FORWARD);
+        //intakeServoRight.setDirection(ServoImplEx.Direction.REVERSE);
 
-        // Wait for the game to start (driver presses START)
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
         waitForStart();
         runtime.reset();
 
-        // run until the end of the match (driver presses STOP)
+
+        intakeServoRight.setPwmRange(new PwmControl.PwmRange(500, 2500));
+        intakeServoLeft.setPwmRange(new PwmControl.PwmRange(500, 2500));
+
         while (opModeIsActive()) {
             double max;
+            intake.setPower(1.0);
+           intakeServoLeft.setPosition(1.0);
+
+
+
+
 
             // POV Mode uses left joystick to go forward & strafe, and right joystick to rotate.
             double axial   = -gamepad1.left_stick_y;
@@ -80,7 +106,6 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
 //            frontRightPower = gamepad1.y ? 1.0 : 0.0;  // Y gamepad
 //            backRightPower  = gamepad1.b ? 1.0 : 0.0;  // B gamepad
 
-            // Send calculated power to wheels
             frontLeftDrive.setPower(frontLeftPower);
             frontRightDrive.setPower(frontRightPower);
             backLeftDrive.setPower(backLeftPower);
