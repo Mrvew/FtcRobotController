@@ -13,6 +13,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 @TeleOp(name = "LimeLightTest", group = "Sensor")
 public class AprilTagLimeLightTest extends OpMode {
     private Limelight3A limeLight;
+
+    private double distance;
     private IMU imu;
 
     @Override
@@ -37,11 +39,19 @@ public class AprilTagLimeLightTest extends OpMode {
         LLResult llResult = limeLight.getLatestResult();
         if (llResult != null && llResult.isValid()) {
             Pose3D botpose = llResult.getBotpose();
+            distance = getDistancefromAprilTag(llResult.getTa());
+            telemetry.addData("distance" , distance);
             telemetry.addData("Target x", llResult.getTx());
             telemetry.addData("Target y", llResult.getTy());
             telemetry.addData("Target Area",llResult.getTa());
             telemetry.addData("botpose",botpose.toString());
             telemetry.addData("Yaw", botpose.getOrientation().getYaw());
         }
+    }
+
+    public double getDistancefromAprilTag (double Ta) {
+        double scale = 199.08;
+        double distance = (scale / Ta);
+        return distance;
     }
 }

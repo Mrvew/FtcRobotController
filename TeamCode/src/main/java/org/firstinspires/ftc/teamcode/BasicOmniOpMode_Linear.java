@@ -26,9 +26,9 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
 
     private DcMotor intake = null;
 
-    private ServoImplEx intakeServoLeft = null;
+    private CRServo intakeServoLeft = null;
 
-    private ServoImplEx intakeServoRight = null;
+    private CRServo intakeServoRight = null;
 
 
     @Override
@@ -45,8 +45,8 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
         frontRightDrive = hardwareMap.get(DcMotor.class, "front_right_drive");
         backRightDrive = hardwareMap.get(DcMotor.class, "back_right_drive");
         intake = hardwareMap.get(DcMotor.class, "intake_motor");
-        intakeServoLeft = hardwareMap.get(ServoImplEx.class, "intakeLeft");
-        intakeServoRight = hardwareMap.get(ServoImplEx.class, "intakeRight");
+        intakeServoLeft = hardwareMap.get(CRServo.class, "intakeLeft");
+        intakeServoRight = hardwareMap.get(CRServo.class, "intakeRight");
 
 
         frontLeftDrive.setDirection(DcMotor.Direction.REVERSE);
@@ -63,13 +63,13 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
         runtime.reset();
 
 
-        intakeServoRight.setPwmRange(new PwmControl.PwmRange(500, 2500));
-        intakeServoLeft.setPwmRange(new PwmControl.PwmRange(500, 2500));
+
 
         while (opModeIsActive()) {
             double max;
             intake.setPower(1.0);
-           intakeServoLeft.setPosition(1.0);
+           intakeServoLeft.setPower(1.0);
+           intakeServoRight.setPower(1.0);
 
 
 
