@@ -27,8 +27,8 @@ public class PedroV3 extends OpMode {
         Scheduler.reset();
 
 
-//        follower = Constants.create(hardwareMap);
-//        follower.setPose(startPose);
+        follower = Constants.create(hardwareMap);
+        follower.setPose(startPose);
     }
 
     @Override

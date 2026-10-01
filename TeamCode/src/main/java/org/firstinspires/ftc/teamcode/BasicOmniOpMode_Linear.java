@@ -38,6 +38,7 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
    // Back left wheel: port 0
    // Back right wheel: port 2
    // Front right wheel: port 3
+   // intake motor: port 0
     // intake left servo  port:4
     // intake right servo port:5
         frontLeftDrive = hardwareMap.get(DcMotor.class, "front_left_drive");
