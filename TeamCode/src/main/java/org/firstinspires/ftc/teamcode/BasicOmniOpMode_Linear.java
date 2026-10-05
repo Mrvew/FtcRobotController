@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.PwmControl;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.ServoImpl;
@@ -26,21 +27,33 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
 
     private DcMotor intake = null;
 
+    private DcMotor shooter = null;
+
     private CRServo intakeServoLeft = null;
 
     private CRServo intakeServoRight = null;
+
+    private CRServo windmill = null;
 
 
     @Override
     public void runOpMode() {
 
-   // Front left wheel: port 1
-   // Back left wheel: port 0
-   // Back right wheel: port 2
-   // Front right wheel: port 3
-   // intake motor: port 0
-    // intake left servo  port:4
-    // intake right servo port:5
+        //motors
+   // Front left wheel: port 1 control hub
+   // Back left wheel: port 0 control hub
+   // Back right wheel: port 2 control hub
+   // Front right wheel: port 3 control hub
+   // intake motor: port 0 expansion hub
+   //shooting motor port:1 expansion hub
+
+        //servo port
+    // intake left servo  port:4 control hub
+    // intake right servo port:5 control hub
+    // windmill servo port:3 control hub
+
+
+
         frontLeftDrive = hardwareMap.get(DcMotor.class, "front_left_drive");
         backLeftDrive = hardwareMap.get(DcMotor.class, "back_left_drive");
         frontRightDrive = hardwareMap.get(DcMotor.class, "front_right_drive");
@@ -48,14 +61,15 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
         intake = hardwareMap.get(DcMotor.class, "intake_motor");
         intakeServoLeft = hardwareMap.get(CRServo.class, "intakeLeft");
         intakeServoRight = hardwareMap.get(CRServo.class, "intakeRight");
+        windmill = hardwareMap.get(CRServo.class, "windmill");
+        shooter = hardwareMap.get(DcMotor.class, "shooter");
 
 
         frontLeftDrive.setDirection(DcMotor.Direction.REVERSE);
         backLeftDrive.setDirection(DcMotor.Direction.REVERSE);
         frontRightDrive.setDirection(DcMotor.Direction.FORWARD);
         backRightDrive.setDirection(DcMotor.Direction.FORWARD);
-        //intakeServoLeft.setDirection(ServoImplEx.Direction.FORWARD);
-        //intakeServoRight.setDirection(ServoImplEx.Direction.REVERSE);
+        shooter.setDirection(DcMotor.Direction.FORWARD);
 
         telemetry.addData("Status", "Initialized");
         telemetry.update();
@@ -70,7 +84,7 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
             double max;
             intake.setPower(1.0);
            intakeServoLeft.setPower(1.0);
-           intakeServoRight.setPower(1.0);
+           intakeServoRight.setPower(-1.0);
 
 
 
@@ -99,6 +113,9 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
                 backLeftPower   /= max;
                 backRightPower  /= max;
             }
+
+            shooter.setPower(gamepad2.b ? 1.0 : 0.0);
+            windmill.setPower(gamepad2.b ? 1.0 : 0.0);
 
             // This is test code:
 
