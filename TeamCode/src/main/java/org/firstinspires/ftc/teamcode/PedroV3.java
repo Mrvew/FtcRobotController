@@ -18,9 +18,9 @@ import org.firstinspires.ftc.teamcode.pedro.Constants;
 public class PedroV3 extends OpMode {
     private Follower follower;
     private final PoseFactory p = PoseFactory.degrees();
-    // our poses
-    private final Pose startPose = p.of(24, 24, 0);
-    private final Pose park = p.of(48, 48, 90);
+    private final Pose startPose = p.of(0, 0, 0);
+    private final Pose scorePose = p.of(150, 0, -90);
+    private final Pose parkPose = p.of(150, 48, -90);
 
     @Override
     public void init() {
@@ -45,12 +45,16 @@ public class PedroV3 extends OpMode {
 
     @Override
     public void start() {
+        schedule(follow(follower, startToScore()));
         schedule(follow(follower, park()));
-
     }
 
-    private Path park() {
-        return line(startPose, park).linear(startPose, park);
+    private Path startToScore() {
+        return line(startPose, scorePose).linear(startPose, scorePose);
+    }
+
+    private Path park(){
+        return line(scorePose, parkPose).linear(scorePose, parkPose);
     }
 
 
