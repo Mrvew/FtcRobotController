@@ -15,8 +15,7 @@ import com.qualcomm.robotcore.hardware.ServoImplEx;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 
-
-@TeleOp(name="Basic: Omni Linear OpMode", group="Linear OpMode")
+@TeleOp(name = "Basic: Omni Linear OpMode", group = "Linear OpMode")
 public class BasicOmniOpMode_Linear extends LinearOpMode {
 
     private ElapsedTime runtime = new ElapsedTime();
@@ -40,18 +39,17 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
     public void runOpMode() {
 
         //motors
-   // Front left wheel: port 1 control hub
-   // Back left wheel: port 0 control hub
-   // Back right wheel: port 2 control hub
-   // Front right wheel: port 3 control hub
-   // intake motor: port 0 expansion hub
-   //shooting motor port:1 expansion hub
+        // Front left wheel: port 1 control hub
+        // Back left wheel: port 0 control hub
+        // Back right wheel: port 2 control hub
+        // Front right wheel: port 3 control hub
+        // intake motor: port 0 expansion hub
+        //shooting motor port:1 expansion hub
 
         //servo port
-    // intake left servo  port:4 control hub
-    // intake right servo port:5 control hub
-    // windmill servo port:3 control hub
-
+        // intake left servo  port:4 control hub
+        // intake right servo port:5 control hub
+        // windmill servo port:3 control hub
 
 
         frontLeftDrive = hardwareMap.get(DcMotor.class, "front_left_drive");
@@ -78,28 +76,23 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
         runtime.reset();
 
 
-
-
         while (opModeIsActive()) {
             double max;
             intake.setPower(1.0);
-           intakeServoLeft.setPower(1.0);
-           intakeServoRight.setPower(-1.0);
-
-
-
+            intakeServoLeft.setPower(1.0);
+            intakeServoRight.setPower(-1.0);
 
 
             // POV Mode uses left joystick to go forward & strafe, and right joystick to rotate.
-            double axial   = -gamepad1.left_stick_y;
-            double lateral =  gamepad1.left_stick_x;
-            double yaw     =  gamepad1.right_stick_x;
+            double axial = -gamepad1.left_stick_y;
+            double lateral = gamepad1.left_stick_x;
+            double yaw = gamepad1.right_stick_x;
 
 
-            double frontLeftPower  = axial + lateral + yaw;
+            double frontLeftPower = axial + lateral + yaw;
             double frontRightPower = axial - lateral - yaw;
-            double backLeftPower   = axial - lateral + yaw;
-            double backRightPower  = axial + lateral - yaw;
+            double backLeftPower = axial - lateral + yaw;
+            double backRightPower = axial + lateral - yaw;
 
             // Normalize the values so no wheel power exceeds 100%
             // This ensures that the robot maintains the desired motion.
@@ -108,14 +101,14 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
             max = Math.max(max, Math.abs(backRightPower));
 
             if (max > 1.0) {
-                frontLeftPower  /= max;
+                frontLeftPower /= max;
                 frontRightPower /= max;
-                backLeftPower   /= max;
-                backRightPower  /= max;
+                backLeftPower /= max;
+                backRightPower /= max;
             }
 
-            shooter.setPower(gamepad2.b ? 1.0 : 0.0);
-            windmill.setPower(gamepad2.b ? 1.0 : 0.0);
+            shooter.setPower(gamepad1.triangle ? 0.55 : 0.0);
+            windmill.setPower(gamepad1.circle ? -1.0 : 0.0);
 
             // This is test code:
 
@@ -135,4 +128,5 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
             telemetry.addData("Back  left/Right", "%4.2f, %4.2f", backLeftPower, backRightPower);
             telemetry.update();
         }
-    }}
+    }
+}

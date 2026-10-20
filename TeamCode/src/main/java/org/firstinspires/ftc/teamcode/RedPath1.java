@@ -17,17 +17,18 @@ import static com.pedropathing.ivy.pedro.PedroCommands.follow;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
+import org.firstinspires.ftc.teamcode.pedro.BaseLinearOpMode;
 import org.firstinspires.ftc.teamcode.pedro.Constants;
 import org.firstinspires.ftc.teamcode.pedro.OpModeStorage;
 
 @Autonomous(name = "RedPath1", group = "Autonomous")
-public class RedPath1 extends LinearOpMode {
+public class RedPath1 extends BaseLinearOpMode {
 
     private Follower follower;
 
     private final PoseFactory poseFactory = PoseFactory.degrees();
 
-    private final Pose start = poseFactory.of(54.9817, 8.3251, 90);
+    private final Pose start = poseFactory.of(54.9817, 8.3251, -90);
     private final Pose path1 = poseFactory.of(55.1701, 26.456, 180);
     private final Pose point2Start = poseFactory.of(55.1701, 26.456, 180);
     private final Pose point2 = poseFactory.of(36.3087, 8.1867, 180);

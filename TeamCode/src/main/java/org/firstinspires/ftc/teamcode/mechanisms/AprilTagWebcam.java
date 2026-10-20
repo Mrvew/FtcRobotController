@@ -83,6 +83,19 @@ public class AprilTagWebcam {
         }
         return null;
     }
+
+    public AprilTagDetection getTagByspecificIDs(List<Integer> ids){
+        for (AprilTagDetection detection : detectedTags) {
+            if (detection instanceof AprilTagSingleDetection && ids.contains(((AprilTagSingleDetection) detection).id)) {
+                return detection;
+            }
+//            else if (detection instanceof AprilTagClusterDetection && ids.contains(((AprilTagClusterDetection) detection).tag)) {
+//                return detection;
+//            }
+        }
+        return null;
+    }
+
     public void stop(){
         if (visionPortal != null){
             visionPortal.close();
