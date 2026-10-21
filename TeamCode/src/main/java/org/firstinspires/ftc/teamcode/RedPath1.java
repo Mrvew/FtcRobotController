@@ -16,6 +16,8 @@ import static com.pedropathing.ivy.groups.Groups.sequential;
 import static com.pedropathing.ivy.pedro.PedroCommands.follow;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.CRServo;
+import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.pedro.BaseLinearOpMode;
 import org.firstinspires.ftc.teamcode.pedro.Constants;
@@ -23,6 +25,13 @@ import org.firstinspires.ftc.teamcode.pedro.OpModeStorage;
 
 @Autonomous(name = "RedPath1", group = "Autonomous")
 public class RedPath1 extends BaseLinearOpMode {
+
+    private CRServo windmill = null;
+    private DcMotor shooter = null;
+    private CRServo intakeServoLeft = null;
+
+    private CRServo intakeServoRight = null;
+    private DcMotor intake = null;
 
     private Follower follower;
 
@@ -39,13 +48,26 @@ public class RedPath1 extends BaseLinearOpMode {
     private final Pose point5 = poseFactory.of(58.8546, 117.0435, -90);
 
     // Autonomous routine
+//    public Command autoRoutine() {
+//        return sequential(
+//                follow(follower, path1()),
+//                follow(follower, path2()),
+//                follow(follower, path3()),
+//                follow(follower, path4()),
+//                follow(follower, path5())
+//        );
+//    }
+
     public Command autoRoutine() {
         return sequential(
-                follow(follower, path1()),
-                follow(follower, path2()),
-                follow(follower, path3()),
-                follow(follower, path4()),
-                follow(follower, path5())
+
+                waitMs(500),
+               //shooting
+               instant(() ->windmill.setPower(1.0)),
+                waitMs(250),
+                instant(() ->windmill.setPower(0.0))
+
+               //follow(follower, path1())
         );
     }
 
@@ -56,12 +78,25 @@ public class RedPath1 extends BaseLinearOpMode {
         follower.setPose(start);
         follower.update();
 
+        windmill = hardwareMap.get(CRServo.class, "windmill");
+        shooter = hardwareMap.get(DcMotor.class, "shooter");
+        intake = hardwareMap.get(DcMotor.class, "intake_motor");
+        intakeServoLeft = hardwareMap.get(CRServo.class, "intakeLeft");
+        intakeServoRight = hardwareMap.get(CRServo.class, "intakeRight");
+
+
+
         waitForStart();
         schedule(autoRoutine());
 
         while (opModeIsActive()) {
             follower.update();
             Scheduler.execute();
+
+            intake.setPower(1.0);
+            intakeServoLeft.setPower(1.0);
+            intakeServoRight.setPower(-1.0);
+            shooter.setPower(0.55);
 
             telemetry.addData("x", follower.pose().x());
             telemetry.addData("y", follower.pose().y());

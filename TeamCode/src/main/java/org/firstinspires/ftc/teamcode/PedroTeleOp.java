@@ -16,6 +16,14 @@ import org.firstinspires.ftc.teamcode.pedro.OpModeStorage;
 @TeleOp(name = "Pedro TeleOp")
 public class PedroTeleOp extends OpMode {
 
+
+    private CRServo windmill = null;
+    private DcMotor shooter = null;
+    private CRServo intakeServoLeft = null;
+
+    private CRServo intakeServoRight = null;
+    private DcMotor intake = null;
+
     private Follower follower;
 
     @Override
@@ -30,17 +38,8 @@ public class PedroTeleOp extends OpMode {
 
         shooter.setDirection(DcMotor.Direction.FORWARD);
 
-
-
     }
 
-
-    private CRServo windmill = null;
-    private DcMotor shooter = null;
-    private CRServo intakeServoLeft = null;
-
-    private CRServo intakeServoRight = null;
-    private DcMotor intake = null;
 
 
     @Override
