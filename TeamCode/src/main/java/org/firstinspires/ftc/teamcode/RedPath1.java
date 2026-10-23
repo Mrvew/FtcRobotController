@@ -1,24 +1,25 @@
 package org.firstinspires.ftc.teamcode;
 
 
-import static com.pedropathing.api.Paths.*;
 import com.pedropathing.api.Paths;
 
 import com.pedropathing.api.PoseFactory;
 import com.pedropathing.follower.Follower;
+import com.pedropathing.ivy.CommandBuilder;
 import com.pedropathing.math.Pose;
 import com.pedropathing.paths.Path;
 import com.pedropathing.ivy.Command;
 import com.pedropathing.ivy.Scheduler;
+
 import static com.pedropathing.ivy.Scheduler.schedule;
 import static com.pedropathing.ivy.commands.Commands.*;
 import static com.pedropathing.ivy.groups.Groups.sequential;
-import static com.pedropathing.ivy.pedro.PedroCommands.follow;
+
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
+import org.firstinspires.ftc.teamcode.mechanisms.Shooter;
 import org.firstinspires.ftc.teamcode.pedro.BaseLinearOpMode;
 import org.firstinspires.ftc.teamcode.pedro.Constants;
 import org.firstinspires.ftc.teamcode.pedro.OpModeStorage;
@@ -26,14 +27,14 @@ import org.firstinspires.ftc.teamcode.pedro.OpModeStorage;
 @Autonomous(name = "RedPath1", group = "Autonomous")
 public class RedPath1 extends BaseLinearOpMode {
 
-    private CRServo windmill = null;
-    private DcMotor shooter = null;
     private CRServo intakeServoLeft = null;
 
     private CRServo intakeServoRight = null;
     private DcMotor intake = null;
 
     private Follower follower;
+
+    private Shooter shooter;
 
     private final PoseFactory poseFactory = PoseFactory.degrees();
 
@@ -58,16 +59,19 @@ public class RedPath1 extends BaseLinearOpMode {
 //        );
 //    }
 
+
+
     public Command autoRoutine() {
         return sequential(
+                waitMs(1000),
+                shooter.shoot(),
+                shooter.shoot(),
+                shooter.shoot(),
+                shooter.shoot(),
+                shooter.shoot(),
+                shooter.shoot()
 
-                waitMs(500),
-               //shooting
-               instant(() ->windmill.setPower(1.0)),
-                waitMs(250),
-                instant(() ->windmill.setPower(0.0))
-
-               //follow(follower, path1())
+                //follow(follower, path1())
         );
     }
 
@@ -77,9 +81,7 @@ public class RedPath1 extends BaseLinearOpMode {
         follower = Constants.create(hardwareMap);
         follower.setPose(start);
         follower.update();
-
-        windmill = hardwareMap.get(CRServo.class, "windmill");
-        shooter = hardwareMap.get(DcMotor.class, "shooter");
+        shooter = new Shooter(hardwareMap);
         intake = hardwareMap.get(DcMotor.class, "intake_motor");
         intakeServoLeft = hardwareMap.get(CRServo.class, "intakeLeft");
         intakeServoRight = hardwareMap.get(CRServo.class, "intakeRight");
@@ -87,18 +89,14 @@ public class RedPath1 extends BaseLinearOpMode {
 
 
         waitForStart();
+        shooter.spinUp();
         schedule(autoRoutine());
 
         while (opModeIsActive()) {
             follower.update();
             Scheduler.execute();
 
-            intake.setPower(1.0);
-            intakeServoLeft.setPower(1.0);
-            intakeServoRight.setPower(-1.0);
-            shooter.setPower(0.55);
-
-            telemetry.addData("x", follower.pose().x());
+                    telemetry.addData("x", follower.pose().x());
             telemetry.addData("y", follower.pose().y());
             telemetry.addData("heading", follower.pose().heading());
 
@@ -110,9 +108,8 @@ public class RedPath1 extends BaseLinearOpMode {
             telemetry.update();
         }
         OpModeStorage.autonomousEndPose = follower.pose(); //saves your position in that file
-
+        shooter.stop();
     }
-
 
 
     public Path path1() {
