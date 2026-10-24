@@ -110,12 +110,12 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
             shooter.setPower(gamepad1.triangle ? 0.55 : 0.0);
             windmill.setPower(gamepad1.circle ? -1.0 : 0.0);
 
-            // This is test code:
+             //This is test code:
 
-//            frontLeftPower  = gamepad1.x ? 1.0 : 0.0;  // X gamepad
-//            backLeftPower   = gamepad1.a ? 1.0 : 0.0;  // A gamepad
-//            frontRightPower = gamepad1.y ? 1.0 : 0.0;  // Y gamepad
-//            backRightPower  = gamepad1.b ? 1.0 : 0.0;  // B gamepad
+            frontLeftPower  = gamepad1.x ? 1.0 : 0.0;  // X gamepad
+            backLeftPower   = gamepad1.a ? 1.0 : 0.0;  // A gamepad
+            frontRightPower = gamepad1.y ? 1.0 : 0.0;  // Y gamepad
+            backRightPower  = gamepad1.b ? 1.0 : 0.0;  // B gamepad
 
             frontLeftDrive.setPower(frontLeftPower);
             frontRightDrive.setPower(frontRightPower);

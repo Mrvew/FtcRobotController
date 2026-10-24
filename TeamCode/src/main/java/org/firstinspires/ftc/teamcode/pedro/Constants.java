@@ -35,14 +35,13 @@ public class Constants {
     public static PinpointConfig localizerConfig = new PinpointConfig(c -> {
         c.name.set("pinpoint");
         c.podType.set(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD);
-        c.xPodOffset.set(0.5);
-        c.yPodOffset.set(-2.0);
+        c.xPodOffset.set(-0.25);
+        c.yPodOffset.set(-2.00);
         c.xPodDirection.set(GoBildaPinpointDriver.EncoderDirection.FORWARD);
         c.yPodDirection.set(GoBildaPinpointDriver.EncoderDirection.REVERSED);
         c.globalDistanceUnit.set(DistanceUnit.INCH);
         c.offsetUnits.set(DistanceUnit.INCH);
     });
-
 
     public static ForesightConfig foresightConfig = new ForesightConfig(
             c -> {
@@ -69,6 +68,7 @@ public class Constants {
                 c.naturalStrafeDeceleration.set(54.598096717202594);
             }
     );
+
     public static Follower create(HardwareMap hardwareMap) {
          return new Follower(new PinpointLocalizer(hardwareMap, Constants.localizerConfig), new Mecanum(hardwareMap, Constants.drivetrainConfig),  new Foresight(Constants.foresightConfig));
     }

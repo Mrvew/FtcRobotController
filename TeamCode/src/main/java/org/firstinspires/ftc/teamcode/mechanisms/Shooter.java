@@ -20,7 +20,7 @@ public class Shooter {
     }
 
     public void spinUp(){
-        shooter.setVelocity(1520);
+        shooter.setVelocity(1250);
     }
 
     public void stop(){
@@ -32,7 +32,7 @@ public class Shooter {
         return sequential(
                 waitMs(500),
                 instant(() -> windmill.setPower(-1.0)),
-                waitMs(750),
+                waitMs(500),
                 instant(() -> windmill.setPower(0.0))
 
         );

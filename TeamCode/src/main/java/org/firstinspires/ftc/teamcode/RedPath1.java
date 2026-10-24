@@ -14,6 +14,7 @@ import com.pedropathing.ivy.Scheduler;
 import static com.pedropathing.ivy.Scheduler.schedule;
 import static com.pedropathing.ivy.commands.Commands.*;
 import static com.pedropathing.ivy.groups.Groups.sequential;
+import static com.pedropathing.ivy.pedro.PedroCommands.follow;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.CRServo;
@@ -35,31 +36,16 @@ public class RedPath1 extends BaseLinearOpMode {
     private Follower follower;
 
     private Shooter shooter;
-
     private final PoseFactory poseFactory = PoseFactory.degrees();
-
     private final Pose start = poseFactory.of(54.9817, 8.3251, -90);
     private final Pose path1 = poseFactory.of(55.1701, 26.456, 180);
     private final Pose point2Start = poseFactory.of(55.1701, 26.456, 180);
     private final Pose point2 = poseFactory.of(36.3087, 8.1867, 180);
-    private final Pose point3 = poseFactory.of(10.9963, 8.1867, 180);
-    private final Pose point4Start = poseFactory.of(10.9963, 8.1867, 180);
+    private final Pose point3 = poseFactory.of(7.0736, 7.6263, -178.9019);
+    private final Pose point4Start = poseFactory.of(7.0736, 7.6263, 180);
     private final Pose point4 = poseFactory.of(36.5853, 117.3202, 0);
     private final Pose point5Start = poseFactory.of(36.5853, 117.3202, 0);
-    private final Pose point5 = poseFactory.of(58.8546, 117.0435, -90);
-
-    // Autonomous routine
-//    public Command autoRoutine() {
-//        return sequential(
-//                follow(follower, path1()),
-//                follow(follower, path2()),
-//                follow(follower, path3()),
-//                follow(follower, path4()),
-//                follow(follower, path5())
-//        );
-//    }
-
-
+    private final Pose point5 = poseFactory.of(6.0128, 110.4602, -90);
 
     public Command autoRoutine() {
         return sequential(
@@ -69,9 +55,14 @@ public class RedPath1 extends BaseLinearOpMode {
                 shooter.shoot(),
                 shooter.shoot(),
                 shooter.shoot(),
-                shooter.shoot()
-
-                //follow(follower, path1())
+                shooter.shoot(),
+                shooter.shoot(),
+                shooter.shoot(),
+                follow(follower, path1()),
+                follow(follower, path2()),
+                follow(follower, path3()),
+                follow(follower, path4()),
+                follow(follower, path5())
         );
     }
 
@@ -87,7 +78,6 @@ public class RedPath1 extends BaseLinearOpMode {
         intakeServoRight = hardwareMap.get(CRServo.class, "intakeRight");
 
 
-
         waitForStart();
         shooter.spinUp();
         schedule(autoRoutine());
@@ -96,7 +86,7 @@ public class RedPath1 extends BaseLinearOpMode {
             follower.update();
             Scheduler.execute();
 
-                    telemetry.addData("x", follower.pose().x());
+            telemetry.addData("x", follower.pose().x());
             telemetry.addData("y", follower.pose().y());
             telemetry.addData("heading", follower.pose().heading());
 

@@ -10,6 +10,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
+import org.firstinspires.ftc.teamcode.mechanisms.Shooter;
 import org.firstinspires.ftc.teamcode.pedro.Constants;
 import org.firstinspires.ftc.teamcode.pedro.OpModeStorage;
 
@@ -18,7 +19,6 @@ public class PedroTeleOp extends OpMode {
 
 
     private CRServo windmill = null;
-    private DcMotor shooter = null;
     private CRServo intakeServoLeft = null;
 
     private CRServo intakeServoRight = null;
@@ -26,20 +26,18 @@ public class PedroTeleOp extends OpMode {
 
     private Follower follower;
 
+    private Shooter shooter;
+
+
     @Override
     public void init() {
         follower = Constants.create(hardwareMap);
-
+        shooter = new Shooter(hardwareMap);
         windmill = hardwareMap.get(CRServo.class, "windmill");
-        shooter = hardwareMap.get(DcMotor.class, "shooter");
         intake = hardwareMap.get(DcMotor.class, "intake_motor");
         intakeServoLeft = hardwareMap.get(CRServo.class, "intakeLeft");
         intakeServoRight = hardwareMap.get(CRServo.class, "intakeRight");
-
-        shooter.setDirection(DcMotor.Direction.FORWARD);
-
     }
-
 
 
     @Override
@@ -54,9 +52,8 @@ public class PedroTeleOp extends OpMode {
         intake.setPower(1.0);
         intakeServoLeft.setPower(1.0);
         intakeServoRight.setPower(-1.0);
-        shooter.setPower(0.55);
 
-        windmill.setPower(gamepad1.circle ? -1.0 : 0.0);
+        windmill.setPower(gamepad1.square ? -1.0 : 0.0);
 
 
         follower.manual(powers);
@@ -69,10 +66,15 @@ public class PedroTeleOp extends OpMode {
         // Math.toDegrees() is a built-in java method
     }
 
-
     @Override
     public void start() {
         follower.setPose(OpModeStorage.autonomousEndPose);
         follower.update();
+        shooter.spinUp();
+    }
+
+    @Override
+    public void stop() {
+        shooter.stop();
     }
 }
