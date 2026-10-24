@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode;
 
-
 import com.pedropathing.api.Paths;
 
 import com.pedropathing.api.PoseFactory;
@@ -25,8 +24,8 @@ import org.firstinspires.ftc.teamcode.pedro.BaseLinearOpMode;
 import org.firstinspires.ftc.teamcode.pedro.Constants;
 import org.firstinspires.ftc.teamcode.pedro.OpModeStorage;
 
-@Autonomous(name = "RedPath1", group = "Autonomous")
-public class RedPath1 extends BaseLinearOpMode {
+@Autonomous(name = "Path2", group = "Autonomous")
+public class Path2 extends BaseLinearOpMode {
 
     private CRServo intakeServoLeft = null;
 
@@ -36,20 +35,17 @@ public class RedPath1 extends BaseLinearOpMode {
     private Follower follower;
 
     private Shooter shooter;
+
+    //this set the points
     private final PoseFactory poseFactory = PoseFactory.degrees();
-    private final Pose start = poseFactory.of(54.9817, 8.3251, -90);
-    private final Pose path1 = poseFactory.of(55.1701, 26.456, 180);
-    private final Pose point2Start = poseFactory.of(55.1701, 26.456, 180);
-    private final Pose point2 = poseFactory.of(36.3087, 8.1867, 180);
-    private final Pose point3 = poseFactory.of(7.0736, 7.6263, -178.9019);
-    private final Pose point4Start = poseFactory.of(7.0736, 7.6263, 180);
-    private final Pose point4 = poseFactory.of(36.5853, 117.3202, 0);
-    private final Pose point5Start = poseFactory.of(36.5853, 117.3202, 0);
-    private final Pose point5 = poseFactory.of(6.0128, 110.4602, -90);
+    private final Pose start = poseFactory.of(60.6734, 133.1431, 90);
+    private final Pose path1 = poseFactory.of(12.6413, 114.6688, -180);
 
     public Command autoRoutine() {
         return sequential(
-                waitMs(1000),
+                //this is what we do once we start
+                waitMs(10000),
+                //this is the shooting
                 shooter.shoot(),
                 shooter.shoot(),
                 shooter.shoot(),
@@ -58,11 +54,8 @@ public class RedPath1 extends BaseLinearOpMode {
                 shooter.shoot(),
                 shooter.shoot(),
                 shooter.shoot(),
-                follow(follower, path1()),
-                follow(follower, path2()),
-                follow(follower, path3()),
-                follow(follower, path4()),
-                follow(follower, path5())
+                //this is the pedro part
+                follow(follower, path1())
         );
     }
 
@@ -73,6 +66,7 @@ public class RedPath1 extends BaseLinearOpMode {
         follower.setPose(start);
         follower.update();
         shooter = new Shooter(hardwareMap);
+        //this set the motor names
         intake = hardwareMap.get(DcMotor.class, "intake_motor");
         intakeServoLeft = hardwareMap.get(CRServo.class, "intakeLeft");
         intakeServoRight = hardwareMap.get(CRServo.class, "intakeRight");
@@ -86,6 +80,11 @@ public class RedPath1 extends BaseLinearOpMode {
             follower.update();
             Scheduler.execute();
 
+            intake.setPower(1.0);
+            intakeServoLeft.setPower(1.0);
+            intakeServoRight.setPower(-1.0);
+
+            //this set what is on the screen
             telemetry.addData("x", follower.pose().x());
             telemetry.addData("y", follower.pose().y());
             telemetry.addData("heading", follower.pose().heading());
@@ -97,28 +96,15 @@ public class RedPath1 extends BaseLinearOpMode {
 
             telemetry.update();
         }
-        OpModeStorage.autonomousEndPose = follower.pose(); //saves your position in that file
+        OpModeStorage.autonomousEndPose = follower.pose();
+        //saves our position in that file
         shooter.stop();
+        //then stops the shooter
     }
 
 
+    //these are all of the actual paths
     public Path path1() {
         return Paths.line(start, path1).linear(start, path1);
-    }
-
-    public Path path2() {
-        return Paths.line(point2Start, point2).linear(point2Start, point2);
-    }
-
-    public Path path3() {
-        return Paths.line(point2, point3).tangent();
-    }
-
-    public Path path4() {
-        return Paths.line(point4Start, point4).linear(point4Start, point4);
-    }
-
-    public Path path5() {
-        return Paths.line(point5Start, point5).linear(point5Start, point5);
     }
 }

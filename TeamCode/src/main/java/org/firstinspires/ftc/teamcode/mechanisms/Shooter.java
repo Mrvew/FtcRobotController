@@ -28,6 +28,7 @@ public class Shooter {
 
     }
 
+
     public CommandBuilder shoot(){
         return sequential(
                 waitMs(500),

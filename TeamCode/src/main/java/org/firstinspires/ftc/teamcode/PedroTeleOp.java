@@ -33,46 +33,50 @@ public class PedroTeleOp extends OpMode {
     public void init() {
         follower = Constants.create(hardwareMap);
         shooter = new Shooter(hardwareMap);
+        //this set the names
         windmill = hardwareMap.get(CRServo.class, "windmill");
         intake = hardwareMap.get(DcMotor.class, "intake_motor");
         intakeServoLeft = hardwareMap.get(CRServo.class, "intakeLeft");
         intakeServoRight = hardwareMap.get(CRServo.class, "intakeRight");
     }
 
-
     @Override
     public void loop() {
+        //this loop is what happens when we start
         DrivePowers powers = ManualDrive.fieldCentric(
                 -gamepad1.left_stick_y,
                 -gamepad1.left_stick_x,
                 -gamepad1.right_stick_x,
                 follower.pose().heading()
         );
-
+        //this set power to the intakes
         intake.setPower(1.0);
         intakeServoLeft.setPower(1.0);
         intakeServoRight.setPower(-1.0);
 
         windmill.setPower(gamepad1.square ? -1.0 : 0.0);
-
+        intake.setPower(gamepad1.triangle ? -1.0 : 1.0);
 
         follower.manual(powers);
         follower.update();
-        Pose robotPose = follower.pose(); // returns a Pose object
+        Pose robotPose = follower.pose();
+        // returns a Pose object
 
+        //this adds the data on the screen
         telemetry.addData("Robot X", robotPose.x());
         telemetry.addData("Robot Y", robotPose.y());
         telemetry.addData("Robot Heading", Math.toDegrees(robotPose.heading()));
-        // Math.toDegrees() is a built-in java method
     }
 
     @Override
     public void start() {
-        follower.setPose(OpModeStorage.autonomousEndPose);
+        //this tells it what to do once the start butten is pressed
+        follower.setPose(new Pose(0, 0, 270));
         follower.update();
         shooter.spinUp();
     }
 
+    //this stop the shooter
     @Override
     public void stop() {
         shooter.stop();
