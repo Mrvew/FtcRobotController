@@ -47,9 +47,9 @@ public class path1 extends BaseLinearOpMode {
     private final Pose point4Start = poseFactory.of(12.2945, 8.1867, 180);
     private final Pose point4 = poseFactory.of(24.1229, 8.2743, 180);
     private final Pose point5Start = poseFactory.of(24.1229, 8.2743, 0);
-    private final Pose point5 = poseFactory.of(29.2564, 98.6096, -90);
-    private final Pose point6Start = poseFactory.of(29.2564, 98.6096, 180);
-    private final Pose point6 = poseFactory.of(9.217, 98.1283, 0);
+    private final Pose point5 = poseFactory.of(30.7665, 93.4549, -90);
+    private final Pose point6Start = poseFactory.of(30.7665, 93.4549, 180);
+    private final Pose point6 = poseFactory.of(12.5922, 92.9356, 0);
 
     public Command autoRoutine() {
         return sequential(
