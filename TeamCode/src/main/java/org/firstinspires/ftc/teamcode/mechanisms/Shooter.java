@@ -31,11 +31,10 @@ public class Shooter {
 
     public CommandBuilder shoot(){
         return sequential(
-                waitMs(500),
+                waitMs(250),
                 instant(() -> windmill.setPower(-1.0)),
                 waitMs(500),
                 instant(() -> windmill.setPower(0.0))
-
         );
     }
 

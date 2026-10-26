@@ -17,7 +17,7 @@ import org.firstinspires.ftc.teamcode.pedro.OpModeStorage;
 @TeleOp(name = "Pedro TeleOp")
 public class PedroTeleOp extends OpMode {
 
-
+    public static final double FORWARD = Math.toRadians(0);
     private CRServo windmill = null;
     private CRServo intakeServoLeft = null;
 
@@ -47,15 +47,21 @@ public class PedroTeleOp extends OpMode {
                 -gamepad1.left_stick_y,
                 -gamepad1.left_stick_x,
                 -gamepad1.right_stick_x,
-                follower.pose().heading()
+                follower.pose().heading(),
+                -FORWARD
         );
+
+        windmill.setPower(gamepad1.right_bumper ? -1.0 : 0.0);
+        intake.setPower(gamepad1.right_bumper ? -1.0 : 1.0);
+
+        if (gamepad1.options) {
+            follower.setPose(follower.pose().withHeading(0));
+        }
+
         //this set power to the intakes
         intake.setPower(1.0);
         intakeServoLeft.setPower(1.0);
         intakeServoRight.setPower(-1.0);
-
-        windmill.setPower(gamepad1.square ? -1.0 : 0.0);
-        intake.setPower(gamepad1.triangle ? -1.0 : 1.0);
 
         follower.manual(powers);
         follower.update();
@@ -71,11 +77,10 @@ public class PedroTeleOp extends OpMode {
     @Override
     public void start() {
         //this tells it what to do once the start butten is pressed
-        follower.setPose(new Pose(0, 0, 270));
+        follower.setPose(OpModeStorage.autonomousEndPose);
         follower.update();
         shooter.spinUp();
     }
-
     //this stop the shooter
     @Override
     public void stop() {

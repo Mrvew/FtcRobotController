@@ -38,13 +38,15 @@ public class Path2 extends BaseLinearOpMode {
 
     //this set the points
     private final PoseFactory poseFactory = PoseFactory.degrees();
-    private final Pose start = poseFactory.of(60.6734, 133.1431, 90);
-    private final Pose path1 = poseFactory.of(12.6413, 114.6688, -180);
+    private final Pose start = poseFactory.of(58.5963, 132.8835, 90);
+    private final Pose path1 = poseFactory.of(45.355, 116.4862, 180);
+    private final Pose point2Start = poseFactory.of(45.355, 116.4862, 180);
+    private final Pose point2 = poseFactory.of(11.0344, 116.5622, 0);
 
     public Command autoRoutine() {
         return sequential(
                 //this is what we do once we start
-                waitMs(10000),
+                waitMs(6000),
                 //this is the shooting
                 shooter.shoot(),
                 shooter.shoot(),
@@ -53,9 +55,9 @@ public class Path2 extends BaseLinearOpMode {
                 shooter.shoot(),
                 shooter.shoot(),
                 shooter.shoot(),
-                shooter.shoot(),
                 //this is the pedro part
-                follow(follower, path1())
+                follow(follower, path1()),
+                follow(follower, path2())
         );
     }
 
@@ -107,4 +109,9 @@ public class Path2 extends BaseLinearOpMode {
     public Path path1() {
         return Paths.line(start, path1).linear(start, path1);
     }
+
+    public Path path2() {
+        return Paths.line(point2Start, point2).linear(point2Start, point2);
+    }
+
 }

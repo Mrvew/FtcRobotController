@@ -26,7 +26,7 @@ import org.firstinspires.ftc.teamcode.pedro.Constants;
 import org.firstinspires.ftc.teamcode.pedro.OpModeStorage;
 
 @Autonomous(name = "Path1", group = "Autonomous")
-public class path1 extends BaseLinearOpMode {
+public class Path1 extends BaseLinearOpMode {
 
     private CRServo intakeServoLeft = null;
 
@@ -63,14 +63,13 @@ public class path1 extends BaseLinearOpMode {
                 shooter.shoot(),
                 shooter.shoot(),
                 shooter.shoot(),
-                shooter.shoot(),
                 //this is the pedro part
-                follow(follower, path1()),
-                follow(follower, path2()),
-                follow(follower, path3()),
-                follow(follower, path4()),
-                follow(follower, path5()),
-                follow(follower, path6())
+                follow(follower, path1())
+//                follow(follower, path2()),
+//                follow(follower, path3()),
+//                follow(follower, path4()),
+//                follow(follower, path5()),
+//                follow(follower, path6())
         );
     }
 
