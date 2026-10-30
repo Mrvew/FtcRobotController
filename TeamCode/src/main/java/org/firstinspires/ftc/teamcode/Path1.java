@@ -29,12 +29,12 @@ public class Path1 extends BaseLinearOpMode {
     private final Pose path1 = poseFactory.of(55.1701, 26.456, 180);
     private final Pose point2Start = poseFactory.of(55.1701, 26.456, 180);
     private final Pose point2 = poseFactory.of(36.3087, 8.1867, 180);
-    private final Pose point3 = poseFactory.of(12.2945, 8.1867, 180);
-    private final Pose point4Start = poseFactory.of(12.2945, 8.1867, 180);
+    private final Pose point3 = poseFactory.of(8.4, 8.1867, 180);
+    private final Pose point4Start = poseFactory.of(8.4, 8.1867, 180);
     private final Pose point4 = poseFactory.of(24.1229, 8.2743, 180);
-    private final Pose point5Start = poseFactory.of(24.1229, 8.2743, 0);
-    private final Pose point5 = poseFactory.of(30.7665, 93.4549, -90);
-    private final Pose point6Start = poseFactory.of(30.7665, 93.4549, 180);
+    private final Pose point5Start = poseFactory.of(24.1229, 8.2743, 180);
+    private final Pose point5 = poseFactory.of(30.5069, 93.1953, 180);
+    private final Pose point6Start = poseFactory.of(30.5069, 93.1953, 180);
     private final Pose point6 = poseFactory.of(12.5922, 92.9356, 0);
 
     @Override
@@ -83,14 +83,16 @@ public class Path1 extends BaseLinearOpMode {
     public Path path3() {
         return Paths.line(point2, point3)
                 .tangent()
-                .with(Constants.foresightConfig.maxPathSpeed.at(0.5));
+                .with(Constants.foresightConfig.maxPathSpeed.at(0.2));
 
     }
 
 
     public Path path4() {
         return Paths.line(point4Start, point4)
-                .linear(point4Start, point4);
+                .linear(point4Start, point4)
+                .with(Constants.foresightConfig.maxPathSpeed.at(1.0));
+
     }
 
     public Path path5() {

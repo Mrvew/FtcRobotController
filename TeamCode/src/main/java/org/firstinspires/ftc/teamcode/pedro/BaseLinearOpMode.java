@@ -51,7 +51,7 @@ public abstract class BaseLinearOpMode extends LinearOpMode {
             //this set what is on the screen
             telemetry.addData("x", follower.pose().x());
             telemetry.addData("y", follower.pose().y());
-            telemetry.addData("heading", follower.pose().heading());
+            telemetry.addData("heading", Math.toDegrees(follower.pose().heading()));
 
             if (follower.currentPath() != null) {
                 telemetry.addData("Current path distance remaining", follower.distanceToEndpoint());
@@ -69,6 +69,5 @@ public abstract class BaseLinearOpMode extends LinearOpMode {
     protected abstract Pose startPose();
 
     protected abstract Command autoRoutine();
-
 
 }
